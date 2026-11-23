@@ -4,17 +4,25 @@ OpenCode port of Lauren Tan's [pstack 0.15.46](https://github.com/cursor/plugins
 
 See [UPSTREAM.md](./UPSTREAM.md) for the source pin, port scope, and notes for future syncs.
 
-## Use it
+## Install
 
-Open this checkout in OpenCode. It discovers the skills directly from `.agents/skills/`. Mention `@setup-pstack` to choose model preferences, or start a task with `@poteto-mode`. Use `@poteto-help` for the workflow guide.
+pstack installs as an OpenCode skill collection. Clone this repository into a permanent location. Replace `REPO_URL` with this repository's clone URL:
 
-To use the skills from another project, keep this checkout in place and add its absolute skill directory to that project's `opencode.json` (or your global OpenCode config):
+```sh
+git clone REPO_URL "$HOME/opencode-pstack"
+```
+
+For **all projects**, add the `skills` entry below to `~/.config/opencode/opencode.json`. For **one project**, use `opencode.json` in that project's root instead. If the file already has a `skills` array, append the path to it.
 
 ```json
 {
   "$schema": "https://opencode.ai/config.json",
-  "skills": ["/absolute/path/to/opencode-pstack/.agents/skills"]
+  "skills": ["~/opencode-pstack/.agents/skills"]
 }
 ```
+
+## Use it
+
+Open your target project in OpenCode and type `@poteto-help`. Select the skill and ask which workflow fits your task to confirm the installation. Use `@setup-pstack` to choose model preferences or `@poteto-mode` to start work. Inside the pstack checkout itself, OpenCode discovers `.agents/skills/` without any configuration.
 
 The [skill collection](.agents/skills/) and [guide](docs/guide/README.md) preserve upstream workflow terminology. Read `/name` examples as `@name`. The [OpenCode adapter](.agents/skills/poteto-mode/references/opencode.md) maps tool names, delegation, and model defaults. Cursor plugin registration and the Cursor-only Benny automation pack are omitted.
