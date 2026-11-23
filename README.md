@@ -6,10 +6,10 @@ See [UPSTREAM.md](./UPSTREAM.md) for the source pin, port scope, and notes for f
 
 ## Install
 
-Install globally with OpenCode 2.4.1 or later. Replace `OWNER` with the GitHub owner hosting this port:
+Install globally with OpenCode 2.4.1 or later:
 
 ```sh
-opencode plugin add github:OWNER/opencode-pstack
+opencode plugin add github:pstack-ports/opencode-pstack
 ```
 
 The plugin registers the bundled `.agents/skills/` directory's skills in each project. Check the installation with `opencode plugin list`.
