@@ -2,6 +2,8 @@
 
 OpenCode port of Lauren Tan's [pstack 0.15.46](https://github.com/cursor/plugins/tree/7a583913eb1b8d1a0ee76753d1a2cf072e7b54f9/pstack). Following the [Codex port](https://github.com/pstack-ports/codex-pstack), this checkout includes the `deslop`, `control-cli`, and `control-ui` companion skills from the same upstream revision.
 
+See [UPSTREAM.md](./UPSTREAM.md) for the source pin, port scope, and notes for future syncs.
+
 ## Use it
 
 Open this checkout in OpenCode. It discovers the skills directly from `.agents/skills/`. Mention `@setup-pstack` to choose model preferences, or start a task with `@poteto-mode`. Use `@poteto-help` for the workflow guide.
