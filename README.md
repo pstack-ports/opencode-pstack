@@ -6,20 +6,13 @@ See [UPSTREAM.md](./UPSTREAM.md) for the source pin, port scope, and notes for f
 
 ## Install
 
-pstack installs as an OpenCode skill collection. Clone this repository into a permanent location. Replace `REPO_URL` with this repository's clone URL:
+Install globally with OpenCode 2.4.1 or later. Replace `OWNER` with the GitHub owner hosting this port:
 
 ```sh
-git clone REPO_URL "$HOME/opencode-pstack"
+opencode plugin add github:OWNER/opencode-pstack
 ```
 
-For **all projects**, add the `skills` entry below to `~/.config/opencode/opencode.json`. For **one project**, use `opencode.json` in that project's root instead. If the file already has a `skills` array, append the path to it.
-
-```json
-{
-  "$schema": "https://opencode.ai/config.json",
-  "skills": ["~/opencode-pstack/.agents/skills"]
-}
-```
+The plugin registers the bundled `.agents/skills/` directory's skills in each project. Check the installation with `opencode plugin list`.
 
 ## Use it
 

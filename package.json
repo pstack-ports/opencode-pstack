@@ -1,0 +1,12 @@
+{
+  "name": "opencode-pstack",
+  "version": "0.15.46",
+  "type": "module",
+  "license": "MIT",
+  "exports": "./index.js",
+  "files": ["index.js", ".agents/skills", "agents", "assets", "docs", "UPSTREAM.md"],
+  "dependencies": {
+    "@opencode/plugin": "2.4.1",
+    "yaml": "^2.8.1"
+  }
+}
