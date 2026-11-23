@@ -8,7 +8,7 @@ import { join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { setTimeout as delay } from 'node:timers/promises'
 
-const packagePath = process.argv[2] ? resolve(process.argv[2]) : fileURLToPath(new URL('..', import.meta.url))
+const packagePath = realpathSync(process.argv[2] ?? fileURLToPath(new URL('..', import.meta.url)))
 const scratch = mkdtempSync(join(realpathSync(tmpdir()), 'pstack-test-'))
 const env = {
   ...process.env,
@@ -71,16 +71,26 @@ try {
   const roles = ['poteto-agent', 'comment-sicko']
   const missing = roles.filter(id => !agents.some(agent => agent.id === id && agent.mode === 'subagent'))
   assert.deepEqual(missing, [], `Missing pstack subagents: ${missing.join(', ')}`)
-  for (const id of roles) {
-    const agent = get(project, `/api/agent/${id}`)
-    assert.equal(agent.model, undefined)
-    assert.match(agent.system, id === 'poteto-agent' ? /# Poteto subagent/ : /# Comment Sicko/)
+  const delegate = get(project, '/api/agent/poteto-agent')
+  assert.equal(delegate.model, undefined)
+  assert.ok(delegate.system.includes(mode.path))
+  const reviewer = get(project, '/api/agent/comment-sicko')
+  assert.equal(reviewer.model, undefined)
+  assert.match(reviewer.system, /# Comment Sicko/)
+  for (const action of ['edit', 'shell']) {
+    const applicable = reviewer.permissions.filter(rule => rule.action === '*' || rule.action === action)
+    assert.ok(applicable.every(rule => rule.effect === 'deny'), `Comment Sicko must deny ${action}`)
+    assert.ok(applicable.some(rule => rule.resource === '*'))
   }
   console.log('OpenCode loads the packaged skills and both pstack subagents')
 
-  const overridden = await loadProject('overridden', { 'poteto-agent': { mode: 'subagent', system: 'Project override' } })
+  const overridden = await loadProject('overridden', {
+    'poteto-agent': { mode: 'subagent', system: 'Project override' },
+    'comment-sicko': { disabled: true },
+  })
   assert.equal(get(overridden, '/api/agent/poteto-agent').system, 'Project override')
-  console.log('OpenCode keeps project-defined agents with the same ID')
+  assert.ok(!get(overridden, '/api/agent').some(agent => agent.id === 'comment-sicko'))
+  console.log('OpenCode respects project overrides and disabled agents')
 } finally {
   if (server?.pid && server.exitCode === null && server.signalCode === null) {
     server.kill()
