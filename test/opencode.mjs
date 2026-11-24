@@ -62,10 +62,14 @@ try {
   }
 
   const project = await loadProject('project')
-  const skills = get(project, '/api/skill')
-  const mode = skills.find(skill => skill.id === 'poteto-mode')
-  assert.equal(mode?.path, resolve(packagePath, '.agents/skills/poteto-mode/SKILL.md'))
+  const skills = new Map(get(project, '/api/skill').map(skill => [skill.id, skill]))
+  const bundled = ['poteto-mode', 'deslop', 'control-cli', 'control-ui']
+  for (const id of bundled) {
+    assert.equal(skills.get(id)?.path, resolve(packagePath, '.agents/skills', id, 'SKILL.md'), `Missing packaged skill: ${id}`)
+  }
+  const mode = skills.get('poteto-mode')
   assert.equal(mode.autoinvoke, false)
+  console.log(`OpenCode loads packaged skills: ${bundled.join(', ')}`)
 
   const agents = get(project, '/api/agent')
   const roles = ['poteto-agent', 'comment-sicko']
@@ -82,7 +86,7 @@ try {
     assert.ok(applicable.every(rule => rule.effect === 'deny'), `Comment Sicko must deny ${action}`)
     assert.ok(applicable.some(rule => rule.resource === '*'))
   }
-  console.log('OpenCode loads the packaged skills and both pstack subagents')
+  console.log(`OpenCode registers pstack subagents: ${roles.join(', ')}`)
 
   const overridden = await loadProject('overridden', {
     'poteto-agent': { mode: 'subagent', system: 'Project override' },

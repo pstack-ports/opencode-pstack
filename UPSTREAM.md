@@ -10,4 +10,5 @@ The OpenCode changes are in the next commit, `096fa44`. Skills live only in `.ag
 ## Future upstream syncs
 
 - Skip the Cursor plugin manifests and `pstack/automations/benny/`. The Benny pack depends on Cursor Automations.
-- Preserve the [worktree audit](./.agents/skills/poteto-mode/scripts/worktree-audit.sh) fix for paths containing spaces. It reads NUL-delimited records from `git worktree list --porcelain -z`. Drop that patch once upstream handles those paths correctly. Keep transcript lookup scoped to `PSTACK_TRANSCRIPTS_DIR` for OpenCode.
+- Keep workflow history on the read-only [OpenCode session API](./.agents/skills/poteto-mode/references/opencode.md#session-history). It reads sessions from the active OpenCode server without a Cursor transcript export. Check the exact location and subpath before reading messages. The OpenCode 2.4.1 list endpoint can return root sessions when queried for a subpath.
+- Preserve the [worktree audit](./.agents/skills/poteto-mode/scripts/worktree-audit.sh) fix for paths containing spaces. It reads NUL-delimited records from `git worktree list --porcelain -z`. Drop that patch once upstream handles those paths correctly. Scope the script's optional file-based transcript lookup to `PSTACK_TRANSCRIPTS_DIR`.

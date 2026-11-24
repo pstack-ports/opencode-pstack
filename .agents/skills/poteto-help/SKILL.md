@@ -104,9 +104,6 @@ Close calls:
 - `/recall` rebuilds context across recent chats. `/ketchup` covers only this chat since the user's last message. Resuming one specific chat or branch is the Session pickup playbook.
 - `/figure-it-out` designs one rigorous run. The Autonomous run playbook drives one task to a finish condition.
 
-Not in pstack:
-
-- `/deslop`, `control-cli`, and `control-ui` ship in the `cursor-team-kit` plugin.
 - For unattended runs, follow the OpenCode adapter's [scheduling instructions](../poteto-mode/references/opencode.md#scheduling).
 - pstack has no `/orchestrate` skill. If the slash menu shows `/orchestrate`, another plugin provides it.
 
