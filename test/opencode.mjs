@@ -2,7 +2,7 @@ import assert from 'node:assert/strict'
 import { execFileSync, spawn } from 'node:child_process'
 import { randomBytes } from 'node:crypto'
 import { once } from 'node:events'
-import { mkdirSync, mkdtempSync, realpathSync, rmSync, writeFileSync } from 'node:fs'
+import { mkdirSync, mkdtempSync, readdirSync, realpathSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -63,13 +63,14 @@ try {
 
   const project = await loadProject('project')
   const skills = new Map(get(project, '/api/skill').map(skill => [skill.id, skill]))
-  const bundled = ['poteto-mode', 'deslop', 'control-cli', 'control-ui']
+  const bundled = readdirSync(new URL('../.agents/skills/', import.meta.url), { withFileTypes: true })
+    .filter(entry => entry.isDirectory()).map(entry => entry.name)
   for (const id of bundled) {
     assert.equal(skills.get(id)?.path, resolve(packagePath, '.agents/skills', id, 'SKILL.md'), `Missing packaged skill: ${id}`)
   }
   const mode = skills.get('poteto-mode')
   assert.equal(mode.autoinvoke, false)
-  console.log(`OpenCode loads packaged skills: ${bundled.join(', ')}`)
+  console.log(`OpenCode loads all ${bundled.length} packaged skills`)
 
   const agents = get(project, '/api/agent')
   const roles = ['poteto-agent', 'comment-sicko']

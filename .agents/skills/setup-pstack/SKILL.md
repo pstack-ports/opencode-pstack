@@ -15,16 +15,7 @@ Use the actual subagent tool schema or a model-list capability exposed by this O
 
 Read project configuration first, otherwise personal configuration. The default role-to-model mapping is the shape in section 3. If a configuration file already exists, read it and treat its `# budget` line and its role values as the current choices. Otherwise start from those defaults. A line whose role is not in section 3, such as `hardest tasks`, `architect runners`, `reflect tooling`, or `why investigators`, is from a retired role. Drop it.
 
-Older defaults put another Gemini model, then `gemini-4-neon-high`, in the panel seat. So in any rule, a `gemini-4-neon-high` entry, or a `gemini-4-*` entry other than `gemini-4-neon-*`, in a panel role (`arena runners`, `arena cross-judge pool`, `interrogate reviewers`) is an old default. Each one becomes `gemini-4-neon-xhigh`. A Gemini 4 Neon entry at any other level is the user's choice and stays. Tell the user which entries you replaced.
-
-A file without the `# defaults: 3` line comes from an older setup. That setup wrote a line for every role, so some of its values are old defaults, not choices. Before section 2, replace these values:
-
-- An `arena cross-judge pool` list of exactly one `claude-fable-*` entry, one `claude-opus-*` entry, and one `gemini-*` entry, in any order, takes the role's section 3 list. Fable and Opus are one vendor, so the Fable entry could judge only where the Opus entry also could.
-- A list of exactly three `inherit-parent` entries in `arena cross-judge pool` is the previous default for that pool. It takes the role's section 3 list.
-- A `# budget: unlimited` line becomes `large`, because no role runs above `xhigh`.
-- If the file has no `# defaults: 2` line either, an old slug is one that matches `grok-*`. An old slug in `feature, refactoring`, `bug-fix`, `perf-issue`, `hillclimb`, or `swarm workers` takes the role's section 3 default. In a panel role (`arena runners`, `arena cross-judge pool`, `interrogate reviewers`), a list of exactly one `claude-opus-*` entry and one old slug, in either order, takes the role's section 3 list. In any other list, each old slug becomes `inherit-parent`.
-
-Every other value is the user's choice and stays, including an old slug in any other role and every `inherit-parent` or `auto` value. Tell the user which values you replaced.
+Validate existing overrides against the current OpenCode model list. Flag unavailable entries and ask for a replacement before rewriting the file.
 
 With no file, every role inherits the parent model and reasoning. `arena runners` and `interrogate reviewers` are three seats on the parent model. `arena cross-judge pool` is two.
 
@@ -37,9 +28,9 @@ Use the available user-input tool, or a concise text question when it is unavail
 - `medium` — high reasoning when supported
 - `small` — medium reasoning when supported
 
-A budget changes only explicit reasoning levels. `inherit-parent` and `auto` do not change. For an explicit entry, move its reasoning level on the ladder `xhigh` > `high` > `medium` > `low`: `large` keeps it, `medium` lowers it one step, and `small` lowers it two steps. No role runs above `xhigh`, and a target at the bottom of the ladder stays there. Choose a supported level at or below the target. If none is known, leave effort inherited and disclose it. Model IDs and reasoning are separate values; never construct an effort-suffixed model slug. Gemini 4 Neon slugs run from `low` to `xhigh` with no `max` or `fast` slug, so its seat runs at `gemini-4-neon-xhigh`, its top slug. A Gemini 4 Neon entry in a panel role takes its own target, `xhigh` moved by the budget, so `large` keeps `gemini-4-neon-xhigh`, `medium` writes `gemini-4-neon-high`, and `small` writes `gemini-4-neon-medium`.
+A budget changes only explicit reasoning levels. `inherit-parent` and `auto` do not change. For an explicit entry, move its reasoning level on the ladder `xhigh` > `high` > `medium` > `low`: `large` keeps it, `medium` lowers it one step, and `small` lowers it two steps. No role runs above `xhigh`, and a target at the bottom of the ladder stays there. Choose a supported level at or below the target. If none is known, leave effort inherited and disclose it. Model IDs and reasoning are separate values; never construct an effort-suffixed model slug.
 
-Show all roles and their values, plus any removed retired roles. Let the user accept or change specific roles. A scalar role takes `inherit-parent`, `auto`, `<validated-model>`, or `<validated-model> <validated-effort>`. Panel roles take comma-separated entries; every entry, including aliases, creates one seat. `arena cross-judge pool` is a pool, but Arena runs one judge. It tries only values from a vendor other than the parent's, in list order, so order it by preference. Fable and the other Claude models are one vendor. An `inherit-parent` or `auto` value never judges.
+Show all roles and their values, plus any removed retired roles. Let the user accept or change specific roles. A scalar role takes `inherit-parent`, `auto`, `<validated-model>`, or `<validated-model> <validated-effort>`. Panel roles take comma-separated entries; every entry, including aliases, creates one seat. `arena cross-judge pool` is a pool, but Arena runs one judge. It tries only values from a vendor other than the parent's, in list order, so order it by preference. An `inherit-parent` or `auto` value never judges.
 
 ## 3. Validate and write
 

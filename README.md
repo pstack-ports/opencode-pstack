@@ -1,25 +1,19 @@
 # pstack for OpenCode
 
-OpenCode port of Lauren Tan's [pstack 0.15.46](https://github.com/cursor/plugins/tree/7a583913eb1b8d1a0ee76753d1a2cf072e7b54f9/pstack). Following the [Codex port](https://github.com/pstack-ports/codex-pstack), this checkout includes the `deslop`, `control-cli`, and `control-ui` companion skills from the same upstream revision.
-
-See [UPSTREAM.md](./UPSTREAM.md) for the source pin, port scope, and notes for future syncs.
+pstack gives OpenCode a set of skills for planning changes, delegating implementation, verifying results, and shipping pull requests.
 
 ## Install
 
-Install globally with OpenCode 2.4.1 or later:
+With OpenCode 2.4.1 or later, run:
 
 ```sh
 opencode plugin add github:pstack-ports/opencode-pstack
 ```
 
-The plugin registers the bundled skills and the `poteto-agent` and `comment-sicko` subagents in each project. Check the installation with `opencode plugin list` and `opencode debug agents`.
+Open your project in OpenCode and mention `@poteto-help` to find a workflow, or give `@poteto-mode` a task directly. Use `@setup-pstack` to choose models for delegates and reviewers.
 
-## Use it
+See the [user guide](docs/guide/README.md) for worked examples and the [porting guide](PORTING.md) for the source revision and maintenance instructions.
 
-Open your target project in OpenCode and type `@poteto-help`. Select the skill and ask which workflow fits your task to confirm the installation. Use `@setup-pstack` to choose model preferences or `@poteto-mode` to start work. Inside the pstack checkout itself, OpenCode discovers `.agents/skills/` without any configuration.
+## License
 
-The [skill collection](.agents/skills/) and [guide](docs/guide/README.md) preserve upstream workflow terminology. Read `/name` examples as `@name`. The [OpenCode adapter](.agents/skills/poteto-mode/references/opencode.md) maps tool names, delegation, and model defaults. Cursor plugin registration and the Cursor-only Benny automation pack are omitted.
-
-## Verify a local change
-
-With OpenCode 2.4.1 or later on `PATH`, run `npm install` and `node test/opencode.mjs`. The test loads the plugin in a temporary project and checks the skill and agent registries.
+[MIT](LICENSE)

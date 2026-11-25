@@ -6,7 +6,7 @@ Apply these mappings whenever a bundled workflow uses upstream host terminology.
 - `Task` means `subagent`. Use the requested `poteto-agent` or `comment-sicko` ID when registered. If pstack is loaded as skills only, use `general` with the matching role brief from the bundle's `agents/` directory. Give the delegate absolute paths to the installed skill and adapter. Map `generalPurpose` to `general`. OpenCode runs subagents in the background and returns a session ID for follow-ups. Use isolated worktrees for parallel edits. For report-only review, tell the subagent to leave files untouched.
 - Use the native file, shell and question tools for `Read`, `Shell` and `AskQuestion`. Use `todowrite` if available and keep a checklist in the conversation otherwise. Use the repository's forge integration for PRs.
 - Read `.agents/pstack-models.md` in the target project, falling back to `~/.agents/pstack-models.md`. Without an explicit model choice, omit the override and inherit the session model. Preserve panel size; do not guess provider IDs or reasoning variants from upstream examples.
-- Cursor UI gestures, cloud routines, webhook endpoints and marketplace commands are upstream examples. Do not use those services. Use an explicitly configured integration when available; otherwise report the missing prerequisite.
+- Do not assume a cloud runner, webhook endpoint, or external marketplace is available. Use an explicitly configured integration when available; otherwise report the missing prerequisite.
 
 ## Session history
 
