@@ -14,7 +14,7 @@ Run:
 @setup-pstack
 ```
 
-[`@setup-pstack`](../../.agents/skills/setup-pstack/SKILL.md) shows the model choices available in your session for code delegates, judgment, and review panels. Unconfigured roles inherit the session model. Setup saves your choices in the active project's `.agents/pstack-models.md` by default. Ask for personal settings to use `~/.agents/pstack-models.md` instead. Project settings take precedence.
+[`@setup-pstack`](../../.agents/skills/setup-pstack/SKILL.md) shows the model choices available in your session for code delegates, judgment, and review panels. Unconfigured roles inherit the session model. Pstack reads `~/.config/opencode/pstack-models.md` first (under `$XDG_CONFIG_HOME/opencode` when set). Only when that file is absent does it use the project's `.opencode/pstack-models.md`. Setup updates the active file, or creates a personal file if neither exists.
 
 You might be wondering what happens if you use Auto. Set a role to `inherit-parent` or `auto` and pstack omits the subagent `model` field, so the subagent inherits your parent chat model. Both values mean the same thing, and neither is a model slug. For a panel role the value is a list, and one subagent runs per entry, so the list length sets the panel size. Setup also configures `swarm workers`, the default model for every `@swarm` worker unless a race names a model for each arm.
 

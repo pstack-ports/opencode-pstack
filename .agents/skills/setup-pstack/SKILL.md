@@ -7,13 +7,13 @@ Before following this workflow, read the [OpenCode adapter](../poteto-mode/refer
 
 # Setup pstack
 
-Write `.agents/pstack-models.md` in the active project. Use `~/.agents/pstack-models.md` only when the user asks for personal settings. Project settings take precedence. Every pstack skill explicitly reads this configuration through the adapter; it is not an automatically applied OpenCode rule.
+Use the first existing model file in the adapter's lookup order: personal, then project. Update that file unless the user chooses a scope. If neither exists, create the personal file by default. Every pstack skill explicitly reads this configuration through the adapter; it is not an automatically applied OpenCode rule.
 
 ## 1. Detect available choices and load current state
 
 Use the actual subagent tool schema or a model-list capability exposed by this OpenCode session. Validate reasoning levels separately from model IDs. Do not infer entitlement from public documentation or copy a model slug from upstream. If the host cannot enumerate overrides, offer `inherit-parent` and `auto`; ask for a validated model only when the user wants an override.
 
-Read project configuration first, otherwise personal configuration. The default role-to-model mapping is the shape in section 3. If a configuration file already exists, read it and treat its `# budget` line and its role values as the current choices. Otherwise start from those defaults. A line whose role is not in section 3, such as `hardest tasks`, `architect runners`, `reflect tooling`, or `why investigators`, is from a retired role. Drop it.
+The default role-to-model mapping is the shape in section 3. If a configuration file already exists, read it and treat its `# budget` line and its role values as the current choices. Otherwise start from those defaults. A line whose role is not in section 3, such as `hardest tasks`, `architect runners`, `reflect tooling`, or `why investigators`, is from a retired role. Drop it.
 
 Validate existing overrides against the current OpenCode model list. Flag unavailable entries and ask for a replacement before rewriting the file.
 
